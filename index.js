@@ -12,6 +12,10 @@ const wsServer = new webSocketServer({
 
 const clients = {}
 
+function getUniqueID() {
+    return Math.random()
+}
+
 wsServer.on('request', function(request) {
     var userID = getUniqueID();
     console.log((new Date()) + 'Received a new connection from origin' + request.origin + '.')
@@ -24,8 +28,8 @@ wsServer.on('request', function(request) {
         if(message.type === 'utf8') {
             console.log('Recevied message', message.utf8Data)
             for(key in clients) {
-                clients[key].sentUTF(message.utf8Data)
-                console.log('Sent message to', client[key])
+                clients[key].sendUTF(message.utf8Data)
+                console.log('Sent message to', clients[key])
             }
         }
     })
